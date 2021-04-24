@@ -21,7 +21,7 @@
     width: 20vw;
     border: 1px solid black;
     margin: 5vw 1vw;
-    transition: 5s;
+    transition: 0.1s;
 }
 .next{
     position: absolute;
