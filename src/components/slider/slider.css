@@ -1,13 +1,13 @@
 .outer{
-    padding: 0;
+    padding-top: 100px;
     margin: 0;
     min-width: 100%;
-    min-height: 100%;
+    min-height: 900px;
     background-color: yellow;
 }
 .inner {
     background-color: blueviolet;
-    height: 400px;
+    height: 600px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

@@ -1,6 +1,6 @@
 import './App.css';
 import Slider from "./components/slider/slider";
-import SliderArray from "./components/slider/slides/slides";
+import SliderArray from "./components/slider/slidesData";
 
 function App() {
   return (

@@ -1,68 +1,51 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import './slider.css'
-import SliderArray from "./slides/slides";
+import SliderArray from "./slidesData";
 
-export default class Slider extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            x: 0,
-            // currentPos: 0,
-            initialPos: 0,
+const Slider = () => {
+    const [x, setX] = useState(0)
+    const [initPos, setInit] = useState(0)
+    const [tr, setTr] = useState(0)
+    let transformed
+
+    const tStart = (e) => {
+        setInit(e.touches[0].clientX)
+        const transform = window.getComputedStyle(e.target).getPropertyValue('transform')
+        transformed = parseInt(transform.split(',')[4].trim())
+        if (transformed !== 0) {
+            setTr(transformed)
         }
-
-        this.bNext = this.bNext.bind(this);
-        this.tMove = this.tMove.bind(this);
-        this.tStart = this.tStart.bind(this);
+    }
+    const tMove = (e) => {
+        let currentPos = e.touches[0].clientX
+        let dif = currentPos - initPos;
+        setX(dif + tr)
+        console.log(x)
+    }
+    const tEnd = () => {
 
     }
 
-    bNext(){
-        let _step = 222;
-        this.setState(({x}) => ({
-            x: x - _step
-        }))
-    }
-
-    tStart(e){
-        this.setState(({initialPos}) => ({
-            initialPos: Math.round(e.touches[0].clientX)
-        }))
-        console.log('START POS - '+this.state.initialPos)
-    }
-
-
-    tMove(e) {
-        let currentPos = Math.round(e.touches[0].clientX)
-        let dif = currentPos - this.state.initialPos
-        this.setState(({x}) => ({
-            x: dif
-        }))
-        console.log((currentPos))
-    }
-
-    render() {
-        return (
-            <div className="outer track">
-                <div className="inner track"
-                    onTouchStart={this.tStart}
-                    onTouchMove={this.tMove}
-                    // onTouchEnd={}
-                >
-                    {SliderArray.map((slide, i) => {
-                        return <img
-                            key={i}
-                            src={slide.path}
-                            alt={'=('}
-                            className='colors track'
-                            style={{transform: `translateX(${this.state.x}px)`}}
-                        />
-                    })}
-                    <button className="button prev" onClick={this.bNext}/>
-                    <button className="button next" onClick={this.bNext}/>
-                </div>
+    return (
+        <div className="outer">
+            <div className="inner"
+            >
+                {SliderArray.map((slide, i) => {
+                    return <img
+                        onTouchMove={tMove}
+                        onTouchStart={tStart}
+                        onTouchEnd={tEnd}
+                        key={i}
+                        src={slide.path}
+                        alt={'=('}
+                        className='colors'
+                        style={{transform: `translateX(${x}px)`}}
+                    />
+                })}
+                <button className="button prev"/>
+                <button className="button next"/>
             </div>
-        )
-    }
+        </div>
+    )
 }
-
+export default Slider
